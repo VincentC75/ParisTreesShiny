@@ -13,10 +13,12 @@ dftrees1 <- data.frame(do.call(rbind, lapply(strsplit(dftrees$geo_point_2d,','),
                                              function(x) {c(
                                                coord = x
                                              )})),stringsAsFactors=FALSE)
-dftrees$lat <- as.numeric(dftrees1$coord1)
-dftrees$lon <- as.numeric(dftrees1$coord2)
+dftrees$latitude <- as.numeric(dftrees1$coord1)
+dftrees$longitude <- as.numeric(dftrees1$coord2)
 dftrees$geo_point_2d <- NULL
 rm(dftrees1)
+
+save(dftrees,file="dftrees_all.Rda")
 
 dftrees <- dftrees %>% 
   filter(REMARQUABLE == 1)

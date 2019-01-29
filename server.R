@@ -5,12 +5,17 @@
 library(shiny)
 library(leaflet)
 
-# Load data previously downloaded and filtered by loaddata.R
-load("dftrees_filtered.Rda")
-
 shinyServer(function(input, output) {
-   
+
+dfname <- reactive({
+  if (input$outstanding == TRUE)
+    name <- 'dftrees_filtered.Rda'
+  else
+    name <- 'dftrees_all.Rda'
+})
+
   output$paristreemap <- renderLeaflet({
+    load(dfname())
     dftrees %>% 
       leaflet() %>%
       addTiles() %>%
