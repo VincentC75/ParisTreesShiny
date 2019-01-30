@@ -4,17 +4,33 @@
 
 library(shiny)
 library(leaflet)
-
-# Load data previously downloaded and filtered by loaddata.R
-load("dftrees_filtered.Rda")
+library(dplyr)
 
 shinyServer(function(input, output) {
-   
+
+dfname <- reactive({
+  if (input$outstanding == TRUE)
+    name <- 'dftrees_filtered.Rda'
+  else
+    name <- 'dftrees_all.Rda'
+})
+
   output$paristreemap <- renderLeaflet({
+    load(dfname())
+    dftrees <- dftrees %>%
+      filter(height >= input$height[1]) %>%
+      filter(height <= input$height[2])
+    dftrees <- dftrees %>%
+      filter(girth >= input$girth[1]) %>%
+      filter(girth <= input$girth[2])
     dftrees %>% 
       leaflet() %>%
       addTiles() %>%
-      addMarkers(popup = paste(dftrees$GENRE, dftrees$ESPECE),
+      addMarkers(popup = paste(dftrees$GENRE, "<br>",
+                               dftrees$ESPECE, "<br>",
+                               "height = ", dftrees$height, "m<br>",
+                               "girth = ", dftrees$girth, "cm<br>",
+                               dftrees$LIEU...ADRESSE),
                  clusterOptions = markerClusterOptions())
   })
   
