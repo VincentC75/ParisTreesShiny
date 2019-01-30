@@ -20,7 +20,8 @@ shinyUI(fluidPage(
 #                   max = 50,
 #                   value = 30),
        # Select whether to display only outstanding trees or all trees
-       checkboxInput(inputId = "outstanding", label = strong("Display only outstanding trees"), value = TRUE)
+       checkboxInput(inputId = "outstanding", label = strong("Display only outstanding trees"), value = TRUE),
+       sliderInput("height", "Heigth (m):", min = 0, max = 30, value = c(0,30))
     ),
 
     

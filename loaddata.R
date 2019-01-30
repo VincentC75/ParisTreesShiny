@@ -15,7 +15,10 @@ dftrees1 <- data.frame(do.call(rbind, lapply(strsplit(dftrees$geo_point_2d,','),
                                              )})),stringsAsFactors=FALSE)
 dftrees$latitude <- as.numeric(dftrees1$coord1)
 dftrees$longitude <- as.numeric(dftrees1$coord2)
+dftrees$height <- as.numeric(dftrees$HAUTEUR..m.)
+dftrees[dftrees$height > 30,]$height <- 0
 dftrees$geo_point_2d <- NULL
+dftrees$HAUTEUR..m. <- NULL
 rm(dftrees1)
 
 save(dftrees,file="dftrees_all.Rda")

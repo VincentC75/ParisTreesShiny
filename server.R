@@ -16,10 +16,17 @@ dfname <- reactive({
 
   output$paristreemap <- renderLeaflet({
     load(dfname())
+    dftrees <- dftrees %>%
+      filter(height >= input$height[1]) %>%
+      filter(height <= input$height[2])
     dftrees %>% 
       leaflet() %>%
       addTiles() %>%
-      addMarkers(popup = paste(dftrees$GENRE, dftrees$ESPECE),
+      addMarkers(popup = paste(dftrees$GENRE, "<br>",
+                               dftrees$ESPECE, "<br>",
+                               "height = ", dftrees$HAUTEUR..m., "m<br>",
+                               "girth = ", dftrees$CIRCONFERENCEENCM, "cm<br>",
+                               dftrees$LIEU...ADRESSE),
                  clusterOptions = markerClusterOptions())
   })
   
