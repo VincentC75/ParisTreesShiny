@@ -15,7 +15,6 @@ dftrees1 <- data.frame(do.call(rbind, lapply(strsplit(dftrees$geo_point_2d,','),
                                              )})),stringsAsFactors=FALSE)
 dftrees$latitude <- as.numeric(dftrees1$coord1)
 dftrees$longitude <- as.numeric(dftrees1$coord2)
-<<<<<<< HEAD
 rm(dftrees1)
 
 dftrees$height <- as.numeric(dftrees$HAUTEUR..m.)
@@ -26,14 +25,6 @@ dftrees$HAUTEUR..m. <- NULL
 dftrees$girth <- as.numeric(dftrees$CIRCONFERENCEENCM)
 dftrees$CIRCONFERENCEENCM <- NULL
 
-=======
-dftrees$height <- as.numeric(dftrees$HAUTEUR..m.)
-dftrees[dftrees$height > 30,]$height <- 0
-dftrees$geo_point_2d <- NULL
-dftrees$HAUTEUR..m. <- NULL
-rm(dftrees1)
-
->>>>>>> 1a64362fccad729acb9d95cfb30311559f663052
 save(dftrees,file="dftrees_all.Rda")
 
 dftrees <- dftrees %>% 

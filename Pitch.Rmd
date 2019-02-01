@@ -1,0 +1,67 @@
+---
+title: "Paris Outstanding Trees"
+author: "Vincent"
+date: "31 janvier 2019"
+output: ioslides_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Paris Trees OpenData
+
+This project uses open data regarding trees in Paris : https://opendata.paris.fr/explore/dataset/les-arbres/information/
+
+A Shiny application displays on a leaflet map the location and characteristics of trees in the Paris area.
+By default, only outstanding trees are displayed, but if this option is unchecked, all 202 285 trees in Paris can be displayed
+
+```{r}
+dftrees <- read.csv2("les-arbres.csv", stringsAsFactors = FALSE) 
+nrow(dftrees)
+```
+
+
+## Example map (1/2)
+
+```{r leafletmap, echo = TRUE, eval = FALSE}
+library(leaflet)
+load("dftrees_filtered.Rda")
+dftrees %>% 
+      leaflet() %>%
+      addTiles() %>%
+      addMarkers(popup = paste(dftrees$GENRE, "<br>",
+                               dftrees$ESPECE, "<br>",
+                               "height = ", dftrees$height, "m<br>",
+                               "girth = ", dftrees$girth, "cm<br>",
+                               dftrees$LIEU...ADRESSE),
+                 clusterOptions = markerClusterOptions())
+```
+
+
+## Example map (2/2)
+
+```{r leafletmap2, echo = FALSE, eval = TRUE, warnings=FALSE, error=FALSE, message=FALSE}
+library(leaflet)
+load("dftrees_filtered.Rda")
+dftrees %>% 
+      leaflet() %>%
+      addTiles() %>%
+      addMarkers(popup = paste(dftrees$GENRE, "<br>",
+                               dftrees$ESPECE, "<br>",
+                               "height = ", dftrees$height, "m<br>",
+                               "girth = ", dftrees$girth, "cm<br>",
+                               dftrees$LIEU...ADRESSE),
+                 clusterOptions = markerClusterOptions())
+```
+
+## User Input
+
+The user can use sliders to select
+- tree height
+- tree girth
+
+He can also choose to display all trees instead of only outstanding ones. Even if in this scenario points are dsiplayed in clusters, depending on the map zoom, loading more than 200 thousand points on the map takes a few seconds.
+
+### Thank you !
+
